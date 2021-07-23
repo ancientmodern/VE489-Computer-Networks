@@ -18,16 +18,23 @@ func main() {
 	}
 	defer conn.Close()
 
-	buf := make([]byte, 1024)
-	n, cliAddr, err := conn.ReadFromUDP(buf)
-	if err != nil {
-		return
-	}
-	fmt.Println("Received from Client：", string(buf[:n]))
+	count := 0
+	for {
+		buf := make([]byte, 1024)
+		n, cliAddr, err := conn.ReadFromUDP(buf)
+		if err != nil {
+			fmt.Println("ReadFromUDP err:", err)
+			return
+		}
+		fmt.Printf("Count: %d, Content: %s\n", count, string(buf[:n]))
+		count++
 
-	_, err = conn.WriteToUDP([]byte("0123456789"), cliAddr)
-	if err != nil {
-		fmt.Println("WriteToUDP err:", err)
-		return
+		_, err = conn.WriteToUDP([]byte("0123456789"), cliAddr)
+		if err != nil {
+			fmt.Println("WriteToUDP err:", err)
+			return
+		}
+
+		buf = nil
 	}
 }
