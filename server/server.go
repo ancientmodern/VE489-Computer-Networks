@@ -35,7 +35,7 @@ func main() {
 		}
 		txSeqNum := int(buf[n-1]) - 48
 		if txSeqNum == rxSeqNum {
-			fmt.Printf("Want %d, received %d, send back ACK\n", rxSeqNum, txSeqNum)
+			fmt.Printf("Want %d, received %d, send back ACK %d\n", rxSeqNum, txSeqNum, rxSeqNum+1)
 			rxSeqNum++
 		} else {
 			fmt.Printf("Want %d, received %d, drop it\n", rxSeqNum, txSeqNum)

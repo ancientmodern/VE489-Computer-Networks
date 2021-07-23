@@ -26,6 +26,7 @@ func main() {
 	txSeqNum := 0
 	for i := 0; i < 20; i++ {
 		_, err = conn.Write([]byte(fmt.Sprintf("Message%d", txSeqNum)))
+		fmt.Println("Sent Message", txSeqNum)
 		txSeqNum++
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
@@ -41,7 +42,7 @@ func main() {
 		if err != nil {
 			if errors.Is(err, os.ErrDeadlineExceeded) {
 				txSeqNum--
-				fmt.Println("Waiting for ACK timeout, resend Message", txSeqNum)
+				fmt.Println("Waiting for ACK timeout, will resend Message", txSeqNum)
 			} else {
 				return
 			}
