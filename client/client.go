@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"time"
+	"ve489/util"
 )
 
 var num = flag.Int("num", 5, "Input how many times")
@@ -23,11 +24,10 @@ func main() {
 
 	fmt.Println("Dial complete")
 
-	txSeqNum := 0
+	txSeqNum := false
 	for i := 0; i < 20; i++ {
-		_, err = conn.Write([]byte(fmt.Sprintf("Message%d", txSeqNum)))
-		fmt.Println("Sent Message", txSeqNum)
-		txSeqNum++
+		_, err = conn.Write([]byte(fmt.Sprintf("Message%d", util.Bool2Int(txSeqNum))))
+		fmt.Println("Sent Message", util.Bool2Int(txSeqNum))
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
 		}
@@ -41,13 +41,13 @@ func main() {
 		n, err := conn.Read(buf)
 		if err != nil {
 			if errors.Is(err, os.ErrDeadlineExceeded) {
-				txSeqNum--
-				fmt.Println("Waiting for ACK timeout, will resend Message", txSeqNum)
+				fmt.Println("Waiting for ACK timeout, will resend Message", util.Bool2Int(txSeqNum))
 			} else {
 				return
 			}
 		} else {
 			fmt.Println("Received from Server:", string(buf[:n]))
+			txSeqNum = !txSeqNum
 		}
 
 		time.Sleep(500 * time.Millisecond)
