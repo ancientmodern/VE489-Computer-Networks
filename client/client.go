@@ -23,10 +23,10 @@ func main() {
 
 	fmt.Println("Dial complete")
 
-	count := 0
+	txSeqNum := 0
 	for i := 0; i < 20; i++ {
-		_, err = conn.Write([]byte(fmt.Sprintf("Message %d", count)))
-		count++
+		_, err = conn.Write([]byte(fmt.Sprintf("Message%d", txSeqNum)))
+		txSeqNum++
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
 		}
@@ -40,15 +40,16 @@ func main() {
 		n, err := conn.Read(buf)
 		if err != nil {
 			if errors.Is(err, os.ErrDeadlineExceeded) {
-				fmt.Println("Waiting for ACK timeout, resend...")
-				count--
+				txSeqNum--
+				fmt.Println("Waiting for ACK timeout, resend Message", txSeqNum)
 			} else {
 				return
 			}
+		} else {
+			fmt.Println("Received from Server:", string(buf[:n]))
 		}
-		fmt.Println("Received from Server:", string(buf[:n]))
 
-		time.Sleep(1 * time.Second)
+		time.Sleep(500 * time.Millisecond)
 	}
 
 	fmt.Println("Client ends.")

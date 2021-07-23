@@ -5,8 +5,13 @@ import (
 	"net"
 )
 
+const (
+	IP   = "0.0.0.0"
+	Port = "8002"
+)
+
 func main() {
-	udpAddr, err := net.ResolveUDPAddr("udp", "10.3.39.2:8002")
+	udpAddr, err := net.ResolveUDPAddr("udp", fmt.Sprintf("%s:%s", IP, Port))
 	if err != nil {
 		fmt.Println("ResolveUDPAddr err:", err)
 		return
@@ -18,9 +23,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	fmt.Println("Listen complete")
+	fmt.Println("Listening on port", Port)
 
-	count := 0
+	rxSeqNum := 0
 	for {
 		buf := make([]byte, 1024)
 		n, cliAddr, err := conn.ReadFromUDP(buf)
@@ -28,10 +33,15 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
-		fmt.Printf("Count: %d, Content: %s\n", count, string(buf[:n]))
-		count++
+		txSeqNum := int(buf[n-1])
+		if txSeqNum < rxSeqNum {
+			fmt.Printf("Want %d, received %d, drop it\n", rxSeqNum, txSeqNum)
+		} else {
+			fmt.Printf("Want %d, received %d, send back ACK\n", rxSeqNum, txSeqNum)
+			rxSeqNum++
+		}
 
-		_, err = conn.WriteToUDP([]byte("ACK"), cliAddr)
+		_, err = conn.WriteToUDP([]byte(fmt.Sprintf("ACK %d", rxSeqNum)), cliAddr)
 		if err != nil {
 			fmt.Println("WriteToUDP err:", err)
 			return
