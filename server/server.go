@@ -1,18 +1,20 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net"
 	. "ve489/util"
 )
 
 const (
-	IP   = "0.0.0.0"
-	Port = "8002"
+	IP = "0.0.0.0"
 )
 
+var port = flag.Int("p", 8002, "Server Port")
+
 func main() {
-	udpAddr, err := net.ResolveUDPAddr("udp", fmt.Sprintf("%s:%s", IP, Port))
+	udpAddr, err := net.ResolveUDPAddr("udp", fmt.Sprintf("%s:%d", IP, *port))
 	if err != nil {
 		fmt.Println("ResolveUDPAddr err:", err)
 		return
@@ -24,7 +26,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	fmt.Println("Listening on port", Port)
+	fmt.Println("Listening on port", *port)
 
 	rxSeqNum, count := false, 0
 	for {

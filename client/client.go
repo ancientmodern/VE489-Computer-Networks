@@ -10,17 +10,14 @@ import (
 	. "ve489/util"
 )
 
-const (
-	IP   = "10.3.39.2"
-	Port = "8002"
-)
-
-var num = flag.Int("num", 20, "Input how many times")
+var num = flag.Int("n", 20, "Input how many times")
+var ip = flag.String("i", "10.3.39.2", "Server IP")
+var port = flag.Int("p", 8002, "Server Port")
 
 func main() {
 	flag.Parse()
 
-	conn, err := net.Dial("udp", fmt.Sprintf("%s:%s", IP, Port))
+	conn, err := net.Dial("udp", fmt.Sprintf("%s:%d", *ip, *port))
 	if err != nil {
 		fmt.Println("net.Dial err:", err)
 		return
