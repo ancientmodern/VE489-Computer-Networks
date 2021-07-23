@@ -18,6 +18,8 @@ func main() {
 	}
 	defer conn.Close()
 
+	fmt.Println("Listen complete")
+
 	count := 0
 	for {
 		buf := make([]byte, 1024)

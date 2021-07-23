@@ -19,6 +19,8 @@ func main() {
 	}
 	defer conn.Close()
 
+	fmt.Println("Dial complete")
+
 	for i := 0; i < 10; i++ {
 		_, err = conn.Write([]byte("0123456789"))
 		if err != nil {
@@ -31,7 +33,8 @@ func main() {
 			return
 		}
 		fmt.Println("Received from Server:", string(buf[:n]))
-		time.Sleep(3 * time.Second)
+
+		time.Sleep(2 * time.Second)
 	}
 
 	fmt.Println("Client ends.")
