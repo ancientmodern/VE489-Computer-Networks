@@ -33,12 +33,12 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
-		txSeqNum := int(buf[n-1])
-		if txSeqNum < rxSeqNum {
-			fmt.Printf("Want %d, received %d, drop it\n", rxSeqNum, txSeqNum)
-		} else {
+		txSeqNum := int(buf[n-1]) - 48
+		if txSeqNum == rxSeqNum {
 			fmt.Printf("Want %d, received %d, send back ACK\n", rxSeqNum, txSeqNum)
 			rxSeqNum++
+		} else {
+			fmt.Printf("Want %d, received %d, drop it\n", rxSeqNum, txSeqNum)
 		}
 
 		_, err = conn.WriteToUDP([]byte(fmt.Sprintf("ACK %d", rxSeqNum)), cliAddr)
