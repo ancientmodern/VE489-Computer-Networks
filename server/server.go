@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
-	"ve489/util"
+	. "ve489/util"
 )
 
 const (
@@ -34,17 +34,17 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
-		txSeqNum := util.Int2Bool(int(buf[n-1]) - 48)
+		txSeqNum := Int2Bool(int(buf[n-1]) - 48)
 		if txSeqNum == rxSeqNum {
-			fmt.Printf("Want %d, received %d, send back ACK %d\n", util.Bool2Int(rxSeqNum), util.Bool2Int(txSeqNum), util.Bool2Int(!rxSeqNum))
+			fmt.Printf("Want %d, received %d, send back ACK %d\n", Bool2Int(rxSeqNum), Bool2Int(txSeqNum), Bool2Int(!rxSeqNum))
 			rxSeqNum = !rxSeqNum
 			count++
 			fmt.Println("Totally received", count)
 		} else {
-			fmt.Printf("Want %d, received %d, drop it\n", util.Bool2Int(rxSeqNum), util.Bool2Int(txSeqNum))
+			fmt.Printf("Want %d, received %d, send back ACK %d. Drop this message\n", Bool2Int(rxSeqNum), Bool2Int(txSeqNum), Bool2Int(rxSeqNum))
 		}
 
-		_, err = conn.WriteToUDP([]byte(fmt.Sprintf("ACK %d", util.Bool2Int(rxSeqNum))), cliAddr)
+		_, err = conn.WriteToUDP([]byte(fmt.Sprintf("ACK %d", Bool2Int(rxSeqNum))), cliAddr)
 		if err != nil {
 			fmt.Println("WriteToUDP err:", err)
 			return
