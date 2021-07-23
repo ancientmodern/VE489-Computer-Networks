@@ -1,12 +1,18 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net"
+	"time"
 )
 
+var num = flag.Int("num", 5, "Input how many times")
+
 func main() {
-	conn, err := net.Dial("udp", "10.3.39.2:8002")
+	flag.Parse()
+
+	conn, err := net.DialTimeout("udp", "10.3.39.2:8002", time.Second)
 	if err != nil {
 		fmt.Println("net.Dial err:", err)
 		return
