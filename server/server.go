@@ -31,7 +31,7 @@ func main() {
 		fmt.Printf("Count: %d, Content: %s\n", count, string(buf[:n]))
 		count++
 
-		_, err = conn.WriteToUDP([]byte("0123456789"), cliAddr)
+		_, err = conn.WriteToUDP([]byte("ACK"), cliAddr)
 		if err != nil {
 			fmt.Println("WriteToUDP err:", err)
 			return

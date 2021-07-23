@@ -21,10 +21,15 @@ func main() {
 
 	fmt.Println("Dial complete")
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 20; i++ {
 		_, err = conn.Write([]byte("0123456789"))
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
+		}
+
+		err = conn.SetReadDeadline(time.Now().Add(2 * time.Second))
+		if err != nil {
+			fmt.Println("conn.SetReadDeadline err:", err)
 		}
 
 		buf := make([]byte, 1024)
@@ -34,7 +39,7 @@ func main() {
 		}
 		fmt.Println("Received from Server:", string(buf[:n]))
 
-		time.Sleep(2 * time.Second)
+		time.Sleep(1 * time.Second)
 	}
 
 	fmt.Println("Client ends.")
