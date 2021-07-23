@@ -13,7 +13,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	_, err = conn.Write([]byte("Hello! I'm client in UDP!"))
+	_, err = conn.Write([]byte("0123456789"))
 	if err != nil {
 		fmt.Println("conn.Write err:", err)
 	}

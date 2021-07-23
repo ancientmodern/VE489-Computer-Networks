@@ -25,7 +25,7 @@ func main() {
 	}
 	fmt.Println("Received from Client：", string(buf[:n]))
 
-	_, err = conn.WriteToUDP([]byte("nice to see u in udp"), cliAddr)
+	_, err = conn.WriteToUDP([]byte("0123456789"), cliAddr)
 	if err != nil {
 		fmt.Println("WriteToUDP err:", err)
 		return
