@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"net"
+	"os"
 	"time"
 )
 
@@ -21,8 +23,10 @@ func main() {
 
 	fmt.Println("Dial complete")
 
+	count := 0
 	for i := 0; i < 20; i++ {
-		_, err = conn.Write([]byte("0123456789"))
+		_, err = conn.Write([]byte(fmt.Sprintf("Message %d", count)))
+		count++
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
 		}
@@ -35,7 +39,12 @@ func main() {
 		buf := make([]byte, 1024)
 		n, err := conn.Read(buf)
 		if err != nil {
-			return
+			if errors.Is(err, os.ErrDeadlineExceeded) {
+				fmt.Println("Waiting for ACK timeout, resend...")
+				count--
+			} else {
+				return
+			}
 		}
 		fmt.Println("Received from Server:", string(buf[:n]))
 
