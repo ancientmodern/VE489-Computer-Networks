@@ -53,7 +53,7 @@ func main() {
 			txSeqNum = !txSeqNum
 		}
 
-		time.Sleep(500 * time.Millisecond)
+		// time.Sleep(500 * time.Millisecond)
 	}
 
 	fmt.Println("Client exits")
