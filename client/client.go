@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"net"
 	"os"
 	"time"
@@ -17,6 +18,12 @@ var port = flag.Int("p", 8002, "Server Port")
 func main() {
 	flag.Parse()
 
+	data, err := ioutil.ReadFile("../shakespeare.txt")
+	if err != nil {
+		fmt.Println("ReadFile error:", err)
+		return
+	}
+
 	conn, err := net.Dial("udp", fmt.Sprintf("%s:%d", *ip, *port))
 	if err != nil {
 		fmt.Println("net.Dial err:", err)
@@ -27,8 +34,12 @@ func main() {
 	fmt.Println("Dial complete")
 
 	txSeqNum, count := false, 0
-	for i := 0; i < *num; i++ {
-		_, err = conn.Write([]byte(fmt.Sprintf("Message%d", Bool2Int(txSeqNum))))
+	for i := 0; i < len(data); i++ {
+		// _, err = conn.Write([]byte(fmt.Sprintf("Message%d", Bool2Int(txSeqNum))))
+		msg := make([]byte, 2)
+		msg[0], msg[1] = data[i], Bool2Byte(txSeqNum)
+
+		_, err = conn.Write([]byte(string(data[i])))
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
 		}
