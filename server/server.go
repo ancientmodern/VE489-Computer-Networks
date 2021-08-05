@@ -39,7 +39,7 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
-		// fmt.Println(buf)
+
 		txSeqNum := Byte2Bool(buf[n-1])
 
 		if txSeqNum == rxSeqNum {
@@ -58,7 +58,7 @@ func main() {
 			return
 		}
 
-		if count > 30 {
+		if count >= 100 {
 			break
 		}
 
