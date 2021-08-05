@@ -55,7 +55,9 @@ func main() {
 		if err != nil {
 			if errors.Is(err, os.ErrDeadlineExceeded) {
 				fmt.Printf("Waiting for ACK timeout, will resend Message %d (Seq: %d)\n", count, Bool2Int(txSeqNum))
+				i--
 			} else {
+				fmt.Println("Read error:", err)
 				return
 			}
 		} else {
