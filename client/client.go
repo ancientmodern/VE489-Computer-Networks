@@ -38,6 +38,7 @@ func main() {
 		// _, err = conn.Write([]byte(fmt.Sprintf("Message%d", Bool2Int(txSeqNum))))
 		msg := make([]byte, 2)
 		msg[0], msg[1] = data[i], Bool2Byte(txSeqNum)
+		fmt.Println(msg)
 
 		_, err = conn.Write(msg)
 		if err != nil {
@@ -64,7 +65,7 @@ func main() {
 			txSeqNum = !txSeqNum
 		}
 
-		// time.Sleep(500 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 	}
 
 	fmt.Println("Client exits")

@@ -39,6 +39,7 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
+		fmt.Println(buf)
 		txSeqNum := Int2Bool(int(buf[n-1]) - 48)
 
 		if txSeqNum == rxSeqNum {
