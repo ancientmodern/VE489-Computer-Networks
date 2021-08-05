@@ -53,7 +53,7 @@ func main() {
 		}
 		fmt.Printf("Sent Message %d (Seq: %d)\n", count, Bool2Int(txSeqNum))
 
-		err = conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
+		err = conn.SetReadDeadline(time.Now().Add(800 * time.Millisecond))
 		if err != nil {
 			fmt.Println("conn.SetReadDeadline err:", err)
 		}
