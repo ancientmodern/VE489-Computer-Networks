@@ -17,7 +17,7 @@ const (
 var port = flag.Int("p", 8002, "Server Port")
 
 func main() {
-	file, err := os.OpenFile(Filepath, os.O_WRONLY|os.O_APPEND, 0777)
+	file, err := os.OpenFile(Filepath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
 	if err != nil {
 		fmt.Println("OpenFile error", err)
 	}
