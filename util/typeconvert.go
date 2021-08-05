@@ -8,6 +8,14 @@ func Bool2Byte(val bool) byte {
 	}
 }
 
+func Byte2Bool(val byte) bool {
+	if val == 0 {
+		return false
+	} else {
+		return true
+	}
+}
+
 func Bool2Int(val bool) int {
 	if val {
 		return 1

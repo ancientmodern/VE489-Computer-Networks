@@ -39,8 +39,8 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
-		fmt.Println(buf)
-		txSeqNum := Int2Bool(int(buf[n-1]) - 48)
+		// fmt.Println(buf)
+		txSeqNum := Byte2Bool(buf[n-1])
 
 		if txSeqNum == rxSeqNum {
 			fmt.Printf("Want %d, received %d, send back ACK %d\n", Bool2Int(rxSeqNum), Bool2Int(txSeqNum), Bool2Int(!rxSeqNum))

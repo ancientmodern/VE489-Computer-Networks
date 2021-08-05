@@ -38,7 +38,7 @@ func main() {
 		// _, err = conn.Write([]byte(fmt.Sprintf("Message%d", Bool2Int(txSeqNum))))
 		msg := make([]byte, 2)
 		msg[0], msg[1] = data[i], Bool2Byte(txSeqNum)
-		fmt.Println(msg)
+		// fmt.Println(msg)
 
 		_, err = conn.Write(msg)
 		if err != nil {
