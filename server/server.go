@@ -64,7 +64,7 @@ func main() {
 		buf = nil
 	}
 
-	err = ioutil.WriteFile("../received_text.txt", []byte(s), 0777)
+	err = ioutil.WriteFile("/root/VE489/received_text.txt", []byte(s), 0777)
 	if err != nil {
 		fmt.Println("WriteFile error:", err)
 		return

@@ -39,7 +39,7 @@ func main() {
 		msg := make([]byte, 2)
 		msg[0], msg[1] = data[i], Bool2Byte(txSeqNum)
 
-		_, err = conn.Write([]byte(string(data[i])))
+		_, err = conn.Write(msg)
 		if err != nil {
 			fmt.Println("conn.Write err:", err)
 		}
