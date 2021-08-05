@@ -34,14 +34,15 @@ func main() {
 
 	fmt.Println("Dial complete")
 
-	txSeqNum, count := false, 0
+	txSeqNum, count, j := false, 0, 0
 	for i := 0; i < len(data); i += *bytes {
-		// _, err = conn.Write([]byte(fmt.Sprintf("Message%d", Bool2Int(txSeqNum))))
 		msg := make([]byte, *bytes+1)
-		for j := 0; j < *bytes; j++ {
-			msg[j] = data[j+i]
+		for j = 0; j < *bytes; j++ {
+			if j+i < len(data) {
+				msg[j] = data[j+i]
+			}
 		}
-		msg[*bytes] = Bool2Byte(txSeqNum)
+		msg[j] = Bool2Byte(txSeqNum)
 
 		_, err = conn.Write(msg)
 		if err != nil {
