@@ -57,7 +57,7 @@ func main() {
 			return
 		}
 
-		if count > 100 {
+		if count > 50 {
 			break
 		}
 
