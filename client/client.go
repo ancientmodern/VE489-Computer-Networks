@@ -37,10 +37,8 @@ func main() {
 	txSeqNum, count, j := false, 0, 0
 	for i := 0; i < len(data); i += *bytes {
 		msg := make([]byte, *bytes+1)
-		for j = 0; j < *bytes; j++ {
-			if j+i < len(data) {
-				msg[j] = data[j+i]
-			}
+		for j = 0; j < *bytes && j+i < len(data); j++ {
+			msg[j] = data[j+i]
 		}
 		msg[j] = Bool2Byte(txSeqNum)
 

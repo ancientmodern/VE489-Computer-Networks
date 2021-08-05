@@ -46,7 +46,6 @@ func main() {
 			fmt.Println("ReadFromUDP err:", err)
 			return
 		}
-		fmt.Println(n)
 
 		txSeqNum := Byte2Bool(buf[n-1])
 
