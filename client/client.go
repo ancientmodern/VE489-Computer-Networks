@@ -14,7 +14,7 @@ import (
 // var num = flag.Int("n", 20, "Input how many times")
 var ip = flag.String("i", "10.3.80.2", "Server IP")
 var port = flag.Int("p", 8002, "Server Port")
-var bytes = flag.Int("b", 100, "Bytes per message")
+var bytes = flag.Int("b", 1000, "Bytes per message")
 
 func main() {
 	flag.Parse()
@@ -49,17 +49,17 @@ func main() {
 		}
 		fmt.Printf("Sent Message %d (Seq: %d)\n", count, Bool2Int(txSeqNum))
 
-		err = conn.SetReadDeadline(time.Now().Add(1 * time.Second))
+		err = conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 		if err != nil {
 			fmt.Println("conn.SetReadDeadline err:", err)
 		}
 
-		buf := make([]byte, 1024)
+		buf := make([]byte, 2048)
 		n, err := conn.Read(buf)
 		if err != nil {
 			if errors.Is(err, os.ErrDeadlineExceeded) {
 				fmt.Printf("Waiting for ACK timeout, will resend Message %d (Seq: %d)\n", count, Bool2Int(txSeqNum))
-				i--
+				i -= *bytes
 			} else {
 				fmt.Println("Read error:", err)
 				return

@@ -1,21 +1,27 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net"
+	"os"
 	. "ve489/util"
 )
 
 const (
-	IP = "0.0.0.0"
+	IP       = "0.0.0.0"
+	Filepath = "/root/VE489/received_text.txt"
 )
 
 var port = flag.Int("p", 8002, "Server Port")
 
 func main() {
-	s := ""
+	file, err := os.OpenFile(Filepath, os.O_WRONLY|os.O_APPEND, 0777)
+	if err != nil {
+		fmt.Println("OpenFile error", err)
+	}
+	defer file.Close()
 
 	udpAddr, err := net.ResolveUDPAddr("udp", fmt.Sprintf("%s:%d", IP, *port))
 	if err != nil {
@@ -33,6 +39,7 @@ func main() {
 
 	rxSeqNum, count := false, 0
 	for {
+		str := ""
 		buf := make([]byte, 1024)
 		n, cliAddr, err := conn.ReadFromUDP(buf)
 		if err != nil {
@@ -46,7 +53,7 @@ func main() {
 			fmt.Printf("Want %d, received %d, send back ACK %d\n", Bool2Int(rxSeqNum), Bool2Int(txSeqNum), Bool2Int(!rxSeqNum))
 			rxSeqNum = !rxSeqNum
 			count++
-			s += string(buf[:n-1])
+			str += string(buf[:n-1])
 			fmt.Println("Totally received", count)
 		} else {
 			fmt.Printf("Want %d, received %d, send back ACK %d. Drop this message\n", Bool2Int(rxSeqNum), Bool2Int(txSeqNum), Bool2Int(rxSeqNum))
@@ -58,16 +65,18 @@ func main() {
 			return
 		}
 
-		if count >= 100 {
-			break
-		}
-
 		buf = nil
+
+		write := bufio.NewWriter(file)
+		if _, err = write.WriteString(str); err != nil {
+			return
+		}
+		write.Flush()
 	}
 
-	err = ioutil.WriteFile("/root/VE489/received_text.txt", []byte(s), 0777)
-	if err != nil {
-		fmt.Println("WriteFile error:", err)
-		return
-	}
+	//err = ioutil.WriteFile("/root/VE489/received_text.txt", []byte(s), 0777)
+	//if err != nil {
+	//	fmt.Println("WriteFile error:", err)
+	//	return
+	//}
 }
