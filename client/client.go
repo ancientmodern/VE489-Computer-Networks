@@ -15,11 +15,12 @@ import (
 var ip = flag.String("i", "10.3.80.2", "Server IP")
 var port = flag.Int("p", 8002, "Server Port")
 var bytes = flag.Int("b", 1000, "Bytes per message")
+var filepath = flag.String("f", "/root/shakespeare.txt", "Input file path")
 
 func main() {
 	flag.Parse()
 
-	data, err := ioutil.ReadFile("/root/shakespeare.txt")
+	data, err := ioutil.ReadFile(*filepath)
 	if err != nil {
 		fmt.Println("ReadFile error:", err)
 		return
