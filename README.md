@@ -1,6 +1,9 @@
-# UMJI VE489 SU2021 Project Task 1~3
+# VE 489 - Computer Networks (Fall 2021)
 
-Author: Lu Haorong, Lou Chenfei
+Author: Haorong Lu, Chenfei Lou
 
-For details, please check the directory `docs`.
+Welcome to the repo for Fall 2021 VE 489 - Computer Networks.
 
+**For academic integrity, we advise you to thoroughly review the JI Honor Code available [here](https://www.ji.sjtu.edu.cn/academics/academic-integrity/honor-code/).**
+
+Inside you'll find the source code for the final project (3 tasks in total) completed during the term. **Remember to respect academic integrity!!!**
