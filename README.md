@@ -1,8 +1,8 @@
-# VE 489 - Computer Networks (Fall 2021)
+# VE 489 - Computer Networks (Summer 2021)
 
 Author: Haorong Lu, Chenfei Lou
 
-Welcome to the repo for Fall 2021 VE 489 - Computer Networks.
+Welcome to the repo for Summer 2021 VE 489 - Computer Networks.
 
 **For academic integrity, we advise you to thoroughly review the JI Honor Code available [here](https://www.ji.sjtu.edu.cn/academics/academic-integrity/honor-code/).**
 
